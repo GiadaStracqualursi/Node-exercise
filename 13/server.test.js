@@ -1,23 +1,22 @@
-
+const app= require("./server")
 const supertest = require("supertest");
 const req = supertest(app);
 
-test('GET /', async () => {
-	const res = await req
-		.get('/')
-		.expect(200)
-		.expect('Content-Type', "application/json");
+const res = req.get("/").expect(200).expect('Content-Type', "application/json; charset=utf-8").expect([
+	{
+		fruit: 'Apple',
+		size: 'Medium',
+		color: 'Red',
+	},
+	{
+		fruit: 'Blackberry',
+		size: 'Small',
+		color: 'Purple',
+	},
+]).then(()=>{
+	console.log("ok")
+}).catch((err)=>{
+	console.error(err)
+})
 
-	expect(res.body).toEqual([
-		{
-			fruit: 'Apple',
-			size: 'Medium',
-			color: 'Red',
-		},
-		{
-			fruit: 'Blackberry',
-			size: 'Small',
-			color: 'Purple',
-		},
-	]);
-});
+
